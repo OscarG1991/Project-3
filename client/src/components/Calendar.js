@@ -10,7 +10,7 @@ class Calendar extends Component {
     state = {
         events: [
             {
-                start: '2019-03-21',
+                start: '2019-03-19',
                 end: '2019-03-25',
                 rendering: 'background',
                 color: '#5f91e2',
