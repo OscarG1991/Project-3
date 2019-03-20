@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import { Security, ImplicitCallback } from '@okta/okta-react';
 import Home from './Home';
+import Calendar from './components/Calendar';
 
 const config = {
   issuer: 'https://dev-374171.okta.com/oauth2/default',
@@ -12,6 +13,7 @@ const config = {
 }
 
 class App extends Component {
+  
   render() {
     return (
       <Router>
@@ -21,6 +23,7 @@ class App extends Component {
         >
           <Route path='/' exact={true} component={Home}/>
           <Route path='/implicit/callback' component={ImplicitCallback}/>
+          <Route exact path="/calendar" component={Calendar} />
         </Security>
       </Router>
     );
