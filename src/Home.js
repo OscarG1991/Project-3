@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import Welcome from './pages/Welcome';
 
 export default withAuth(class Home extends Component {
   constructor(props) {
@@ -35,7 +41,32 @@ export default withAuth(class Home extends Component {
   render() {
     if (this.state.authenticated === null) return null;
     return this.state.authenticated ?
-      <button className=""onClick={this.logout}>Logout</button> :
-      <button onClick={this.login}>Login</button>;
+    <Card>
+      <Button justify="center" variant="contained" size="large" color="Secondary" className=""onClick={this.logout}>Logout</Button>
+    </Card> :
+
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh' }}
+    > 
+    <Card>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ padding: '20px' }}>
+      
+      <Welcome/>
+      <Button variant="contained" size="large" color="primary" style={{ margin: "10px" }} onClick={this.login}>Login</Button>
+      <Button variant="contained" size="large" color="primary" style={{ margin: "10px" }} onClick={this.login}>Sign Up</Button>
+      </Grid>
+    </Card>
+    </Grid>;
   }
 });
