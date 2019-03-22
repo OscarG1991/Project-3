@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Welcome from './pages/Welcome';
+import Typography from '@material-ui/core/Typography';
 
 export default withAuth(class Home extends Component {
   constructor(props) {
@@ -33,6 +34,11 @@ export default withAuth(class Home extends Component {
     this.props.auth.login('/');
   }
 
+  async signUp() {
+    // Redirect to '/' after sign up
+    this.props.auth.signUp('/')
+  }
+
   async logout() {
     // Redirect to '/' after logout
     this.props.auth.logout('/');
@@ -41,9 +47,15 @@ export default withAuth(class Home extends Component {
   render() {
     if (this.state.authenticated === null) return null;
     return this.state.authenticated ?
-    <Card>
-      <Button justify="center" variant="contained" size="large" color="Secondary" className=""onClick={this.logout}>Logout</Button>
-    </Card> :
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh' }}>
+      <Button justify="center" variant="contained" size="large" color="secondary" onClick={this.logout}>Logout</Button>
+    </Grid> :
 
     <Grid
       container
@@ -60,11 +72,21 @@ export default withAuth(class Home extends Component {
       direction="column"
       alignItems="center"
       justify="center"
-      style={{ padding: '20px' }}>
+      style={{ padding: '2vh' }}>
       
-      <Welcome/>
-      <Button variant="contained" size="large" color="primary" style={{ margin: "10px" }} onClick={this.login}>Login</Button>
-      <Button variant="contained" size="large" color="primary" style={{ margin: "10px" }} onClick={this.login}>Sign Up</Button>
+      <Typography>
+        <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center">
+          <h1>Welcome to <i>placeholder</i>!</h1>
+          <h2>Your personal organizer, event planner, and calendar tracker!</h2>
+        </Grid>
+      </Typography>
+
+      <Button variant="contained" size="large" color="primary" style={{ margin: "1vh" }} onClick={this.login}>Login</Button>
       </Grid>
     </Card>
     </Grid>;
