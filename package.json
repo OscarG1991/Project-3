@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@okta/okta-react": "^1.2.0",
+    "axios": "^0.18.0",
     "express": "^4.16.3",
     "if-env": "^1.0.4",
     "moment": "^2.24.0",
@@ -23,6 +24,7 @@
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
+    "seed": "node scripts/seedDB.js",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
