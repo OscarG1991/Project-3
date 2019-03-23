@@ -3,6 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment';
 import "../App.css";
+import API from "../utils/API";
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -19,12 +20,14 @@ class Calendar extends Component {
     };
 
     componentDidMount() {
-        this.findEvents();
+        this.runCalendar();
     }
 
-    // findEvents = () => {
-    //     API.
-    // }
+    runCalendar = () => {
+        API.findEvents()
+        .then(res => this.setState({ events: res.data, title: "", startDate: "", endDate: "" }))
+        .catch(err => console.log(err));
+    }
 
     render() {
         return(

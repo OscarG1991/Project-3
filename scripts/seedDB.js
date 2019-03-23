@@ -22,9 +22,11 @@ mongoose.connect(
   .then(() => db.Schedule.collection.insertOne(
     {
         title: 'meeting',
-        allDay: false,
-        start: new Date(Date.now()),
-        end: new Date(Date.now())
+        allDay: true,
+        startDate: new Date("<2019-03-25>"),
+        endDate: new Date("<2019-03-26>"),
+        // start: new Date(Date.now()),
+        // end: new Date(Date.now())
       }
   ))
   .then(data => {

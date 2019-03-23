@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@okta/okta-react": "^1.2.0",
+    "axios": "^0.18.0",
     "moment": "^2.24.0",
     "react": "^16.8.4",
     "react-big-calendar": "^0.20.3",
