@@ -11,11 +11,6 @@ class Calendar extends Component {
     state = {
         events: [
             {
-                // start: '2019-03-19',
-                // end: '2019-03-25',
-                // rendering: 'background',
-                // color: '#5f91e2',
-                // name: 'meeting'
                 title: 'Event',
                 allDay: false,
                 start: moment().toDate(),
@@ -33,13 +28,22 @@ class Calendar extends Component {
                 start: moment('2019-03-25T13:00:00-06:00').toDate(),
                 end: moment('2019-03-25T13:00:00-06:00').add(1, 'hours').toDate()
             }
-        ],
+        ]
         showModal: false
     };
 
     show() {
         this.setState({showModal: true});
+
     };
+
+    componentDidMount() {
+        this.findEvents();
+    }
+
+    // findEvents = () => {
+    //     API.
+    // }
 
     render() {
         return(
@@ -59,3 +63,5 @@ class Calendar extends Component {
 }
 
 export default Calendar;
+
+//store in UNIX timestamp, UTC time
