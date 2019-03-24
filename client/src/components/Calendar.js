@@ -25,7 +25,18 @@ class Calendar extends Component {
 
     runCalendar = () => {
         API.findEvents()
-        .then(res => this.setState({ events: res.data, title: "", startDate: "", endDate: "" }))
+        .then(res => {
+            let item = {
+                title: res.data[0].title,
+                allDay: res.data[0].allDay,
+                start: moment(res.data[0].startDate).toDate(),
+                end: moment(res.data[0].endDate).toDate()
+            }
+            this.setState({ events: [ item ] })
+        })
+        // .then(res => {
+        //     console.log(res.data)
+        // })
         .catch(err => console.log(err));
     }
 
