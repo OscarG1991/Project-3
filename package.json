@@ -14,7 +14,6 @@
     "moment": "^2.24.0",
     "mongoose": "^5.4.19",
     "morgan": "^1.9.1",
-    "npm-merge-driver": "^2.3.5",
     "react": "^16.8.4",
     "react-big-calendar": "^0.20.3",
     "react-dom": "^16.8.4",
