@@ -3,6 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment';
 import "../App.css";
+import API from "../utils/API";
 import MyModal from "./Modal";
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -32,10 +33,32 @@ class Calendar extends Component {
         showModal: false
     };
 
+    componentDidMount() {
+        this.runCalendar();
+    }
+
     show() {
         this.setState({showModal: true});
 
     };
+
+    runCalendar = () => {
+        API.findEvents()
+        .then(res => {
+            let item = {
+                title: res.data[0].title,
+                allDay: res.data[0].allDay,
+                start: moment(res.data[0].startDate).toDate(),
+                end: moment(res.data[0].endDate).toDate()
+            }
+            this.setState({ events: [ item ] })
+        })
+        // .then(res => {
+        //     console.log(res.data)
+        // })
+        .catch(err => console.log(err));
+    }
+
 
     render() {
         return(

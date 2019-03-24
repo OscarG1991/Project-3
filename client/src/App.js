@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
-import { Security, ImplicitCallback } from '@okta/okta-react';
+import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import Home from './Home';
 import Calendar from './components/Calendar';
 
@@ -23,7 +23,7 @@ class App extends Component {
         >
           <Route path='/' exact={true} component={Home}/>
           <Route path='/implicit/callback' component={ImplicitCallback}/>
-          <Route exact path="/calendar" component={Calendar} />
+          <SecureRoute exact path="/calendar" component={Calendar} />
         </Security>
       </Router>
     );

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const scheduleRoutes = require("./schedules");
 
-router.use("/", scheduleRoutes);
+router.use("/calendar", scheduleRoutes);
 
 module.exports = router;

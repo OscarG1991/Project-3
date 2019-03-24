@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const schedules = new Schema({
   title: String,
-  allDay: Boolean,
+  allDay: { type: Boolean, default: false },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   start: Date,
