@@ -8,7 +8,10 @@ import Typography from '@material-ui/core/Typography';
 export default withAuth(class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { authenticated: null };
+    this.state = { 
+      authenticated: null,
+      user: null
+       };
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.checkAuthentication();
     this.login = this.login.bind(this);
@@ -18,7 +21,8 @@ export default withAuth(class Home extends Component {
   async checkAuthentication() {
     const authenticated = await this.props.auth.isAuthenticated();
     if (authenticated !== this.state.authenticated) {
-      this.setState({ authenticated });
+      const user = await this.props.auth.getUser();
+      this.setState({ authenticated, user });
     }
   }
 
@@ -37,6 +41,7 @@ export default withAuth(class Home extends Component {
   }
 
   render() {
+    const { user } = this.state;
     if (this.state.authenticated === null) return null;
     return this.state.authenticated ?
     <Grid
@@ -46,7 +51,7 @@ export default withAuth(class Home extends Component {
       alignItems="center"
       justify="center"
       style={{ minHeight: '100vh' }}>
-      <Button justify="center" variant="contained" size="large" color="secondary" onClick={this.logout}>Logout</Button>
+      <Button justify="center" variant="contained" size="large" color="secondary" onClick={this.logout}>Logout {user && user.name}</Button>
     </Grid> :
 
     <Grid
