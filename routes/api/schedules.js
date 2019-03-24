@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const scheduleController = require("../../controllers/scheduleController");
 
-router.route("/calendar")
+router.route("/")
   .get(scheduleController.findAll)
   .post(scheduleController.create);
 
