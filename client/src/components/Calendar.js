@@ -28,7 +28,7 @@ class Calendar extends Component {
                 start: moment('2019-03-25T13:00:00-06:00').toDate(),
                 end: moment('2019-03-25T13:00:00-06:00').add(1, 'hours').toDate()
             }
-        ]
+        ],
         showModal: false
     };
 
@@ -37,9 +37,9 @@ class Calendar extends Component {
 
     };
 
-    componentDidMount() {
-        this.findEvents();
-    }
+    // componentDidMount() {
+    //     this.findEvents();
+    // }
 
     // findEvents = () => {
     //     API.
