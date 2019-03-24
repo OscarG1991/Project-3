@@ -1,6 +1,10 @@
 import React from "react";
 import Modal from 'react-modal';
 import "./style.css";
+import API from "../../utils/API";
+import TimePicker from 'react-dropdown-timepicker';
+import DayPicker, { DateUtils } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 const customStyles = {
     content : {
@@ -10,21 +14,28 @@ const customStyles = {
       bottom                : 'auto',
       marginRight           : '-50%',
       transform             : 'translate(-50%, -50%)',
-      backgroundColor       : 'rgba(76, 87, 104, 1.0)'
-    }
+      backgroundColor       : 'rgb(219, 219, 219)',
+      height                : '70%',
+      width                 : '30%',
+    },
+    overlay: {
+        zIndex: 10
+      }
   };
 
-Modal.setAppElement('body');
+Modal.setAppElement('div');
 
 class MyModal extends React.Component {
 
     state= {
         title: "",
-        date: "",
-        start: "",
+        startDate: "",
+        from: undefined,
+        to: undefined,
         end: "",
     };
     
+    // react-modal 
     constructor() {
         super();
     
@@ -46,23 +57,54 @@ class MyModal extends React.Component {
         this.setState({modalIsOpen: false});
     }
 
+    // react day picker
+    static defaultProps = {
+        numberOfMonths: 1,
+    };
+    
+    handleDayClick = (day) => {
+        const range = DateUtils.addDayToRange(day, this.state);
+        this.setState(range);
+        console.log(range.from.toLocaleDateString());
+    }
+    handleResetClick = () => {
+        this.setState(this.setState({from: undefined, to: undefined}));
+    }
+
+    // form input handling
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
             [name]:value
         });
     }
+
     handleFormSubmit = event => {
         event.preventDefault();
-        this.showEvents();
+        if(this.state.title && this.state.startDate && this.state.endDate && this.state.start && this.state.end) {
+            API.saveEvent({
+                title: this.state.title,
+                startDate: this.state.startDate,
+                endDate: this.state.endDate,
+                start: this.state.startDate + this.state.start,
+                end: this.state.end
+            })
+            .then(res => this.showEvents()
+            .catch(err => console.log(err)));
+        }
     }
-     
+    //react time picker
+    onChange = start => this.setState({ start });
+    onChange1 = end => this.setState({ end });
+
     showEvents = () => {
         // retrieve events from mongo
         // push to events array 
         // return this.setState({events: events})
     }
     render() {
+        const { from, to } = this.state;
+        const modifiers = { start: from, end: to };
         
         return(
             <div>
@@ -77,34 +119,44 @@ class MyModal extends React.Component {
                 <span className="close" onClick={this.closeModal}>&times;</span>
                 <form>
                     <input
+                        type="text"
                         value={this.state.title}
                         onChange={this.handleInputChange}
                         name="title"
                         placeholder="Event"
                     />
-                    <input
-                        value={this.state.startDate}
-                        onChange={this.handleInputChange}
-                        name="startDate"
-                        placeholder="YYYY-MM-DD"
-                    />
-                    <input
-                        value={this.state.endDate}
-                        onChange={this.handleInputChange}
-                        name="endDate"
-                        placeholder="YYYY-MM-DD"
-                    />
-                    <input
+                    <div className="day-pick">
+                        <p>
+                        {!from && !to && 'Please select the first day.'}
+                        {from && !to && 'Please select the last day.'}
+                        {from &&
+                            to &&
+                            `Selected from ${from.toLocaleDateString()} to
+                                ${to.toLocaleDateString()}`}{' '}
+                        {from &&
+                            to && (
+                            <button className="link" onClick={this.handleResetClick}>
+                                Reset
+                            </button>
+                            )}
+                        </p>
+                        <DayPicker
+                            className="Selectable"
+                            numberOfMonths={this.props.numberOfMonths}
+                            selectedDays={[from, { from, to }]}
+                            modifiers={modifiers}
+                            onDayClick={this.handleDayClick}
+                        />
+                    </div>
+                    <TimePicker
+                        onChange={this.onChange}
                         value={this.state.start}
-                        onChange={this.handleInputChange}
                         name="start"
-                        placeholder="Start (00:00)"
                     />
-                    <input
+                    <TimePicker 
+                        onChange={this.onChange1}
                         value={this.state.end}
-                        onChange={this.handleInputChange}
                         name="end"
-                        placeholder="End (00:00)"
                     />
                 </form>
                 <button type="submit" onClick={this.handleFormSubmit}>Create Event</button>

@@ -4,8 +4,10 @@ const Schema = mongoose.Schema;
 const schedules = new Schema({
   title: String,
   allDay: Boolean,
-  start: { type: Date, required: true },
-  end: { type: Date, required: true }
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  start: Date,
+  end: Date
 });
 
 const Schedule = mongoose.model("Schedule", schedules);

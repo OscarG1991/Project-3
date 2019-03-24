@@ -19,16 +19,16 @@ class Calendar extends Component {
             {
                 title: 'Meeting',
                 allDay: false,
-                start: moment('2019-03-25T00:00:00-06:00').toDate(),
-                end: moment('2019-03-25T00:00:00-06:00').add(4, 'hours').toDate()
+                start: moment('2019-03-25T00:00').toDate(),
+                end: moment('2019-03-25T00:00').add(4, 'hours').toDate()
             },
             {
                 title: 'Meeting',
                 allDay: false,
-                start: moment('2019-03-25T13:00:00-06:00').toDate(),
-                end: moment('2019-03-25T13:00:00-06:00').add(1, 'hours').toDate()
+                start: moment('2019-03-25T13:00:00').toDate(),
+                end: moment('2019-03-25T13:00:00').add(1, 'hours').toDate()
             }
-        ]
+        ],
         showModal: false
     };
 
@@ -37,18 +37,10 @@ class Calendar extends Component {
 
     };
 
-    componentDidMount() {
-        this.findEvents();
-    }
-
-    // findEvents = () => {
-    //     API.
-    // }
-
     render() {
         return(
             <div className="container">
-            <MyModal />
+            <MyModal className="ReactModalPortal" />
                 <BigCalendar
                 localizer={localizer}
                 events={this.state.events}
