@@ -2,7 +2,6 @@ import React from "react";
 import Modal from 'react-modal';
 import "./style.css";
 import API from "../../utils/API";
-import TimePicker from 'react-dropdown-timepicker';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
@@ -93,9 +92,6 @@ class MyModal extends React.Component {
             .catch(err => console.log(err)));
         }
     }
-    //react time picker
-    onChange = start => this.setState({ start });
-    onChange1 = end => this.setState({ end });
 
     showEvents = () => {
         // retrieve events from mongo
@@ -148,16 +144,6 @@ class MyModal extends React.Component {
                             onDayClick={this.handleDayClick}
                         />
                     </div>
-                    <TimePicker
-                        onChange={this.onChange}
-                        value={this.state.start}
-                        name="start"
-                    />
-                    <TimePicker 
-                        onChange={this.onChange1}
-                        value={this.state.end}
-                        name="end"
-                    />
                 </form>
                 <button type="submit" onClick={this.handleFormSubmit}>Create Event</button>
             </Modal>
