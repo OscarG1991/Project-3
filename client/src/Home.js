@@ -32,7 +32,7 @@ export default withAuth(class Home extends Component {
 
   async login() {
     // Redirect to '/' after login
-    this.props.auth.login('/');
+    this.props.auth.login('/calendar');
   }
 
   async logout() {
@@ -44,15 +44,14 @@ export default withAuth(class Home extends Component {
     const { user } = this.state;
     if (this.state.authenticated === null) return null;
     return this.state.authenticated ?
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justify="center"
-      style={{ minHeight: '100vh' }}>
-      <Button justify="center" variant="contained" size="large" color="secondary" onClick={this.logout}>Logout {user && user.name}</Button>
-    </Grid> :
+    
+    <Button 
+    // justify="center" 
+    // variant="contained" 
+    // size="large" 
+    // color="secondary"
+    color="inherit" 
+    onClick={this.logout}>Logout {user && user.name}</Button> :
 
     <Grid
       container
@@ -78,12 +77,19 @@ export default withAuth(class Home extends Component {
             direction="column"
             alignItems="center"
             justify="center">
-              <h1>Welcome to <i>placeholder</i>!</h1>
-              <h2>Your personal organizer, event planner, and calendar tracker!</h2>
+              <h1>Welcome to Project Sundial!</h1>
+              {/* <h2>Your personal organizer, event planner, and calendar tracker!</h2> */}
             </Grid>
           </Typography>
 
-          <Button variant="contained" size="large" color="primary" style={{ margin: "1vh" }} onClick={this.login}>Login</Button>
+          <Button 
+          variant="contained" 
+          size="large" 
+          color="primary" 
+          style={{ margin: "1vh" }} 
+          onClick={this.login}>
+            Login
+          </Button>
         </Grid>
       </Card>
     </Grid>;
