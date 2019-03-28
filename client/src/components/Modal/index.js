@@ -4,6 +4,32 @@ import "./style.css";
 import API from "../../utils/API";
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import green from '@material-ui/core/colors/green';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+// import grid from '@material-ui/core/Grid';
+import Grid from '@material-ui/core/Grid';
+import Send from '@material-ui/icons/Send';
+
+
+const theme = createMuiTheme({
+    palette: {
+      primary: green,
+    },
+    typography: {
+      useNextVariants: true,
+    },
+    overrides: {
+      AddEvent: {
+        raisedPrimary: {
+          color: 'white',
+        },
+      },
+    },
+  });
 
 const customStyles = {
     content : {
@@ -11,11 +37,12 @@ const customStyles = {
       left                  : '50%',
       right                 : 'auto',
       bottom                : 'auto',
-      marginRight           : '-50%',
+    //   marginRight           : '-50%',
       transform             : 'translate(-50%, -50%)',
       backgroundColor       : 'rgb(219, 219, 219)',
-      height                : '70%',
-      width                 : '30%',
+      height                : 'auto',
+      width                 : '20%',
+      overflow              : "auto",
     },
     overlay: {
         zIndex: 10
@@ -104,7 +131,25 @@ class MyModal extends React.Component {
         
         return(
             <div>
-            <button type="submit" onClick={this.openModal}>Add Event</button>
+                
+            <MuiThemeProvider theme={theme}>
+                <Fab 
+                color="primary"  
+                variant="extended" 
+                type="submit" 
+                name="AddEvent" 
+                style={{ 
+                    color: "white",
+                    margin: "1vh" }}
+                    onClick={this.openModal}>
+                    <AddIcon />Add Event
+                </Fab>
+            </MuiThemeProvider>
+
+            
+            
+            {/* <button type="submit" onClick={this.openModal}>Add Event</button> */}
+
               <Modal
                 isOpen={this.state.modalIsOpen}
                 onAfterOpen={this.afterOpenModal}
@@ -113,14 +158,31 @@ class MyModal extends React.Component {
                 contentLabel="Example Modal"
               >
                 <span className="close" onClick={this.closeModal}>&times;</span>
+                <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center">
                 <form>
-                    <input
+                    <TextField
+                    //  required
+                     id="outlined-name"
+                     label="Event"
+                     value={this.state.title}
+                     onChange={this.handleInputChange}
+                     name="event-title"
+                     placeholder="What're You Doing?"
+                     margin = "normal"
+                     variant="outlined"
+                     />
+                    {/* <input
                         type="text"
                         value={this.state.title}
                         onChange={this.handleInputChange}
                         name="title"
                         placeholder="Event"
-                    />
+                    /> */}
                     <div className="day-pick">
                         <p>
                         {!from && !to && 'Please select the first day.'}
@@ -145,8 +207,36 @@ class MyModal extends React.Component {
                         />
                     </div>
                 </form>
-                <button type="submit" onClick={this.handleFormSubmit}>Create Event</button>
+                {/* <button type="submit" onClick={this.handleFormSubmit}>Create Event</button> */}
+                {/* <MuiThemeProvider theme={theme}>
+                    <Fab
+                      color="primary"  
+                      variant="extended" 
+                      type="submit"
+                      name="AddEvent"
+                      style={{ 
+                        color: "white",
+                        margin: "1vh"}}
+                    onClick={this.handleFormSubmit}>
+                        <Send style={{padding: "1vh"}}/> Create Event
+                    </Fab>
+                </MuiThemeProvider> */}
+                <MuiThemeProvider theme={theme}>
+                    <Button
+                      color="primary"  
+                      variant="contained" 
+                      type="submit"
+                      name="AddEvent"
+                      style={{ 
+                        color: "white",
+                        margin: "1vh"}}
+                    onClick={this.handleFormSubmit}>
+                        <Send style={{padding: "1vh"}}/> Create Event
+                    </Button>
+                </MuiThemeProvider>
+                </Grid>    
             </Modal>
+            
             </div>
         );
     }
