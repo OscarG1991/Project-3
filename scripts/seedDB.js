@@ -19,15 +19,25 @@ mongoose.connect(
 
   db.Schedule
   .deleteMany({})
-  .then(() => db.Schedule.collection.insertOne(
+  .then(() => db.Schedule.collection.insertMany([
     {
-        title: 'meeting',
-        allDay: true,
-        startDate: new Date("<2019-03-25>"),
-        endDate: new Date("<2019-03-26>"),
-        // start: new Date(Date.now()),
-        // end: new Date(Date.now())
-      }
+      title: 'meeting',
+      start: new Date("2019-03-29T11:00Z"),
+      end: new Date("2019-03-29T12:00Z")
+    },
+    {
+      title: 'presentations',
+      start: new Date("2019-04-06T10:00Z"),
+      end: new Date("2019-04-06T14:00Z")
+    },
+    {
+      title: 'meeting',
+      start: new Date("2019-04-03T11:00Z"),
+      end: new Date("2019-04-03T12:00Z")
+    }
+
+
+  ]
   ))
   .then(data => {
     console.log(data.result.n + " records inserted!");
