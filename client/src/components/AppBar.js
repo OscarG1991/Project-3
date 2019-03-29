@@ -11,7 +11,7 @@ import Home from '../Home';
 // import { Auth } from '@okta/okta-react';
 // import {user}  from '../Home';
 // import { withAuth } from '@okta/okta-react';
-
+import UserName from './UserName';
 
 const styles = {
   root: {
@@ -36,7 +36,7 @@ function ButtonAppBar(props) {
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             {/* Hello {user && user.name} ! */}
-            Hello, User!
+            <UserName />
           </Typography>
           <Home />
         </Toolbar>
