@@ -5,6 +5,7 @@ import moment from 'moment';
 import "../App.css";
 import API from "../utils/API";
 import MyModal from "./Modal";
+import ButtonAppBar from '../components/AppBar';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -67,6 +68,7 @@ class Calendar extends Component {
     render() {
         return(
             <div className="container">
+            <ButtonAppBar />
             <MyModal className="ReactModalPortal" />
                 <BigCalendar
                 localizer={localizer}
@@ -76,6 +78,7 @@ class Calendar extends Component {
                 defaultView={'month'}
                 views={['day','week','month']}
                 onSelectEvent = {this.handleSelectEvent}
+                style={{ margin: '1vh' }}
                 />
             </div>
         )
