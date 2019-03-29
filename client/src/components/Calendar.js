@@ -35,6 +35,7 @@ class Calendar extends Component {
     };
 
     componentDidMount() {
+        console.log(moment('2019-03-25T13:00:00').toDate());
         this.runCalendar();
     }
 
@@ -60,6 +61,9 @@ class Calendar extends Component {
         .catch(err => console.log(err));
     }
 
+    handleSelectEvent(event, target) {
+        console.log(event);
+    }
 
     render() {
         return(
@@ -72,7 +76,8 @@ class Calendar extends Component {
                 startAccessor="start"
                 endAccessor="end"
                 defaultView={'month'}
-                views={['day','month','week']}
+                views={['day','week','month']}
+                onSelectEvent = {this.handleSelectEvent}
                 style={{ margin: '1vh' }}
                 />
             </div>
