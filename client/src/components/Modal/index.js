@@ -31,7 +31,10 @@ class MyModal extends React.Component {
         startDate: "",
         from: undefined,
         to: undefined,
+        start: "",
         end: "",
+        startSelector: "am",
+        endSelector: "am"
     };
     
     // react-modal 
@@ -80,17 +83,23 @@ class MyModal extends React.Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        if(this.state.title && this.state.startDate && this.state.endDate && this.state.start && this.state.end) {
-            API.saveEvent({
-                title: this.state.title,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate,
-                start: this.state.startDate + this.state.start,
-                end: this.state.end
-            })
-            .then(res => this.showEvents()
-            .catch(err => console.log(err)));
-        }
+        // if(this.state.title && this.state.startDate && this.state.endDate && this.state.start && this.state.end) {
+        //     API.saveEvent({
+        //         title: this.state.title,
+        //         startDate: this.state.startDate,
+        //         endDate: this.state.endDate,
+        //         start: this.state.startDate + this.state.start,
+        //         end: this.state.end
+        //     })
+        //     .then(res => this.showEvents()
+        //     .catch(err => console.log(err)));
+        // }
+        if(this.state.startSelector === "pm") {
+            var start = parseInt(this.state.start) + 1200;
+            var t = start.toString().slice(0, 2) + ':' + start.toString().slice(2,4);
+            this.setState({start: t}, ()=> console.log(this.state.start));
+
+        };
     }
 
     showEvents = () => {
@@ -98,6 +107,24 @@ class MyModal extends React.Component {
         // push to events array 
         // return this.setState({events: events})
     }
+
+    //Timepicker
+    handleChange = (event) => {
+        var option = event.currentTarget.value;
+        this.setState({start: option},() => console.log(this.state.start));
+    }
+    handleTime = (e, event) => {
+       var selection = event.currentTarget.value;
+
+       if(e === "start") {
+           this.setState({startSelector: selection});
+           console.log(this.state.startSelector);
+       } else {
+            this.setState({endSelector: selection});
+            console.log(this.state.endSelector);
+       }
+    }
+
     render() {
         const { from, to } = this.state;
         const modifiers = { start: from, end: to };
@@ -144,6 +171,77 @@ class MyModal extends React.Component {
                             onDayClick={this.handleDayClick}
                         />
                     </div>
+                    {/* Timepicker code */}
+                    <select name="startTime" id="startTime"
+                        defaultValue={this.state.start}
+                        onChange={this.handleChange}
+                        >
+                        <option value="1200">12:00</option>
+                        <option value="1230">12:30</option>
+                        <option value="0100">1:00</option>
+                        <option value="0130">1:30</option>
+                        <option value="0200">2:00</option>
+                        <option value="0230">2:30</option>
+                        <option value="0300">3:00</option>
+                        <option value="0330">3:30</option>
+                        <option value="0400">4:00</option>
+                        <option value="0430">4:30</option>
+                        <option value="0500">5:00</option>
+                        <option value="0530">5:30</option>
+                        <option value="0600">6:00</option>
+                        <option value="0630">6:30</option>
+                        <option value="0700">7:00</option>
+                        <option value="0730">7:30</option>
+                        <option value="0800">8:00</option>
+                        <option value="0830">8:30</option>
+                        <option value="0900">9:00</option>
+                        <option value="0930">9:30</option>
+                        <option value="1000">10:00</option>
+                        <option value="1030">10:30</option>
+                        <option value="1100">11:00</option>
+                        <option value="1130">11:30</option>
+                    </select>
+                    <select name="timeSelectStart"
+                        onChange={(e) => this.handleTime('start', e)}
+                        >
+                        <option value="am">AM</option>
+                        <option value="pm">PM</option>
+                    </select>
+
+                    {/* <label for="endTime">End:</label> */}
+                    <select name="endTime" id="endTime">
+                        <option value="1200">12:00</option>
+                        <option value="1230">12:30</option>
+                        <option value="0100">1:00</option>
+                        <option value="0130">1:30</option>
+                        <option value="0200">2:00</option>
+                        <option value="0230">2:30</option>
+                        <option value="0300">3:00</option>
+                        <option value="0330">3:30</option>
+                        <option value="0400">4:00</option>
+                        <option value="0430">4:30</option>
+                        <option value="0500">5:00</option>
+                        <option value="0530">5:30</option>
+                        <option value="0600">6:00</option>
+                        <option value="0630">6:30</option>
+                        <option value="0700">7:00</option>
+                        <option value="0730">7:30</option>
+                        <option value="0800">8:00</option>
+                        <option value="0830">8:30</option>
+                        <option value="0900">9:00</option>
+                        <option value="0930">9:30</option>
+                        <option value="1000">10:00</option>
+                        <option value="1030">10:30</option>
+                        <option value="1100">11:00</option>
+                        <option value="1130">11:30</option>
+                    </select>
+                    <select name="timeSelectEnd"
+                        onChange={(e) => this.handleTime('end', e)}
+                        >
+                        <option value="am">AM</option>
+                        <option value="pm">PM</option>
+
+                    </select>
                 </form>
                 <button type="submit" onClick={this.handleFormSubmit}>Create Event</button>
             </Modal>
