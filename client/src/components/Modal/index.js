@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 // import grid from '@material-ui/core/Grid';
 import Grid from '@material-ui/core/Grid';
 import Send from '@material-ui/icons/Send';
+import moment from 'moment';
 
 
 const theme = createMuiTheme({
@@ -104,26 +105,41 @@ class MyModal extends React.Component {
             [name]:value
         });
     }
-
+//Do we want an allDay descriptor?
     handleFormSubmit = event => {
         event.preventDefault();
-        if(this.state.title && this.state.startDate && this.state.endDate && this.state.start && this.state.end) {
-            API.saveEvent({
-                title: this.state.title,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate,
-                start: this.state.startDate + this.state.start,
-                end: this.state.end
-            })
-            .then(res => this.showEvents()
-            .catch(err => console.log(err)));
-        }
+        console.log("click");
+        // if(this.state.title && this.state.startDate && this.state.endDate && this.state.start && this.state.end) {
+        //     API.saveEvent({
+        //         title: this.state.title,
+        //         // startDate: this.state.startDate,
+        //         // endDate: this.state.endDate,
+        //         start: this.state.startDate + this.state.start,
+        //         end: this.state.end
+        //     })
+        //     .then(res => this.showEvents(res)
+        //     .catch(err => console.log(err)));
+        // }
+        API.saveEvent({
+            title: "Lunch",
+            start: "Mon Apr 08 2019 08:00:00 GMT-0600 (Mountain Daylight Time)",
+            end: "Mon Apr 08 2019 09:00:00 GMT-0600 (Mountain Daylight Time)"
+        })
+        .then(this.closeModal(), this.showEvents())
+        .catch(err => console.log(err));
     }
 
     showEvents = () => {
-        // retrieve events from mongo
-        // push to events array 
-        // return this.setState({events: events})
+        API.findEvents()
+        .then(res => {
+            let items = res.data;
+            for (let i = 0; i < items.length; i++) {
+                items[i].start= moment(items[i].start).toDate();
+                items[i].end= moment(items[i].end).toDate();
+            }
+            this.setState({events: items})    
+        })
+        .catch(err => console.log(err));
     }
     render() {
         const { from, to } = this.state;

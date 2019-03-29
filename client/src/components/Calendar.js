@@ -36,6 +36,8 @@ class Calendar extends Component {
 
     componentDidMount() {
         this.runCalendar();
+        console.log("Hard coded: ", moment('2019-03-25T13:00:00').toDate());
+        
     }
 
     show() {
@@ -46,18 +48,16 @@ class Calendar extends Component {
     runCalendar = () => {
         API.findEvents()
         .then(res => {
-            let item = {
-                title: res.data[0].title,
-                allDay: res.data[0].allDay,
-                start: moment(res.data[0].startDate).toDate(),
-                end: moment(res.data[0].endDate).toDate()
+            let items = res.data;
+            for (let i = 0; i < items.length; i++) {
+                items[i].start= moment(items[i].start).toDate();
+                items[i].end= moment(items[i].end).toDate();
             }
-            this.setState({ events: [ item ] })
+            this.setState({events: items})
+            console.log(this.state.events);    
         })
-        // .then(res => {
-        //     console.log(res.data)
-        // })
         .catch(err => console.log(err));
+
     }
 
 

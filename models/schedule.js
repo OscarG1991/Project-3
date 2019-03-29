@@ -3,11 +3,8 @@ const Schema = mongoose.Schema;
 
 const schedules = new Schema({
   title: String,
-  allDay: { type: Boolean, default: false },
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
-  start: Date,
-  end: Date
+  start: { type: String, required: true },
+  end: { type: String, required: true }
 });
 
 const Schedule = mongoose.model("Schedule", schedules);
