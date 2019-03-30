@@ -79,6 +79,7 @@ class Calendar extends Component {
                 views={['day','week','month']}
                 onSelectEvent = {this.handleSelectEvent}
                 style={{ margin: '1vh' }}
+                //onUpdate={this.runCalendar}
                 />
             </div>
         )

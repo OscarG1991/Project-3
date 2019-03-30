@@ -57,12 +57,11 @@ class MyModal extends React.Component {
     state= {
         title: "",
         startDate: "",
+        endDate: "",
         from: undefined,
         to: undefined,
         start: "",
         end: "",
-        startSelector: "am",
-        endSelector: "am"
     };
     
     // react-modal 
@@ -73,18 +72,25 @@ class MyModal extends React.Component {
           modalIsOpen: false
         };
     
-        this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        // this.openModal = this.openModal.bind(this);
+        // this.afterOpenModal = this.afterOpenModal.bind(this);
+        // this.closeModal = this.closeModal.bind(this);
+
+        this.startTime = React.createRef();
+        this.endTime = React.createRef();
+        this.startSelector = React.createRef();
+        this.endSelector = React.createRef();
+
     }
-    afterOpenModal () {
+    afterOpenModal = () => {
         this.setState({ showModal: true });
     }
-    openModal() {
+    openModal = () =>  {
         this.setState({modalIsOpen: true});
     }
-    closeModal() {
+    closeModal = () => {
         this.setState({modalIsOpen: false});
+        //window.location.reload(); 
     }
 
     // react day picker
@@ -95,7 +101,12 @@ class MyModal extends React.Component {
     handleDayClick = (day) => {
         const range = DateUtils.addDayToRange(day, this.state);
         this.setState(range);
-        console.log(range.from.toLocaleDateString());
+        // console.log(range.from.toLocaleDateString());
+        const newFrom = moment(range.from).format("YYYY-MM-DD");
+        const newTo = moment(range.to).format("YYYY-MM-DD");
+        this.setState({ startDate: newFrom },() => console.log(this.state.startDate));
+        this.setState({ endDate: newTo },() => console.log(this.state.endDate));
+
     }
     handleResetClick = () => {
         this.setState(this.setState({from: undefined, to: undefined}));
@@ -123,51 +134,73 @@ class MyModal extends React.Component {
         //     .then(res => this.showEvents(res)
         //     .catch(err => console.log(err)));
         // }
-        API.saveEvent({
-            title: "Lunch",
-            start: "Mon Apr 08 2019 08:00:00 GMT-0600 (Mountain Daylight Time)",
-            end: "Mon Apr 08 2019 09:00:00 GMT-0600 (Mountain Daylight Time)"
-        })
-        .then(this.closeModal(), this.showEvents())
-        .catch(err => console.log(err));
 
-        if(this.state.startSelector === "pm") {
-            var start = parseInt(this.state.start) + 1200;
-            var t = start.toString().slice(0, 2) + ':' + start.toString().slice(2,4);
-            this.setState({start: t}, ()=> console.log(this.state.start));
+        // API.saveEvent({
+        //     title: "Lunch",
+        //     start: "Mon Apr 08 2019 08:00:00 GMT-0600 (Mountain Daylight Time)",
+        //     end: "Mon Apr 08 2019 09:00:00 GMT-0600 (Mountain Daylight Time)"
+        // })
+        // .then(this.closeModal(), this.showEvents())
+        // .catch(err => console.log(err));
 
-        };
+        this.formatTime();
+
+        
     }
 
-    showEvents = () => {
-        API.findEvents()
-        .then(res => {
-            let items = res.data;
-            for (let i = 0; i < items.length; i++) {
-                items[i].start= moment(items[i].start).toDate();
-                items[i].end= moment(items[i].end).toDate();
-            }
-            this.setState({events: items})    
-        })
-        .catch(err => console.log(err));
-    }
+    // showEvents = () => {
+    //     API.findEvents()
+    //     .then(res => {
+    //         let items = res.data;
+    //         for (let i = 0; i < items.length; i++) {
+    //             items[i].start= moment(items[i].start).toDate();
+    //             items[i].end= moment(items[i].end).toDate();
+    //         }
+    //         this.setState({events: items})   
+    //     })
+    //     .catch(err => console.log(err));
+    // }
 
     //Timepicker
-    handleChange = (event) => {
-        var option = event.currentTarget.value;
-        this.setState({start: option},() => console.log(this.state.start));
-    }
-    handleTime = (e, event) => {
-       var selection = event.currentTarget.value;
+    formatTime = () => {
+        let st;
+        let et;
+        if(this.startSelector.current.value === "pm") {
+            st = moment(this.startTime.current.value + ' pm', 'hh:mm a').format('HH:mm');
+        } else {
+            st = moment(this.startTime.current.value + ' am', 'hh:mm a').format('HH:mm');
+        };
+        
+        if(this.endSelector.current.value === "pm") {
+            console.log("test");
+            et = moment(this.endTime.current.value + ' pm', 'hh:mm a').format('HH:mm');
+        } else {
+            et = moment(this.endTime.current.value + ' am', 'hh:mm a').format('HH:mm');
+        };
+        
+        let e = {
+            title: this.state.title,
+            start: this.state.startDate + "T" + st,
+            end: this.state.endDate + "T" + et,
+        };
+        console.log(e);
 
-       if(e === "start") {
-           this.setState({startSelector: selection});
-           console.log(this.state.startSelector);
-       } else {
-            this.setState({endSelector: selection});
-            console.log(this.state.endSelector);
-       }
-    }
+        if(this.state.title && this.state.startDate && this.state.endDate && st && et) {
+            if(st >= et) {
+                console.log("choose later time")
+            }else{
+                API.saveEvent({
+                    title: this.state.title,
+                    start: this.state.startDate + "T" + st,
+                    end: this.state.endDate + "T" + et
+                })
+                .then(this.closeModal())
+                .catch(err => console.log(err));
+            }
+        }else{
+            console.log("error");
+        }
+    };
 
     render() {
         const { from, to } = this.state;
@@ -190,8 +223,6 @@ class MyModal extends React.Component {
                 </Fab>
             </MuiThemeProvider>
 
-            
-            
             {/* <button type="submit" onClick={this.openModal}>Add Event</button> */}
 
               <Modal
@@ -213,9 +244,9 @@ class MyModal extends React.Component {
                     //  required
                      id="outlined-name"
                      label="Event"
-                     value={this.state.title}
+                     value={this.state.title || ""}
                      onChange={this.handleInputChange}
-                     name="event-title"
+                     name="title"
                      placeholder="What're You Doing?"
                      margin = "normal"
                      variant="outlined"
@@ -252,70 +283,73 @@ class MyModal extends React.Component {
                     </div>
                     {/* Timepicker code */}
                     <select name="startTime" id="startTime"
-                        defaultValue={this.state.start}
-                        onChange={this.handleChange}
+                        defaultValue={this.state.startTime}
+                        ref={this.startTime}
                         >
-                        <option value="1200">12:00</option>
-                        <option value="1230">12:30</option>
-                        <option value="0100">1:00</option>
-                        <option value="0130">1:30</option>
-                        <option value="0200">2:00</option>
-                        <option value="0230">2:30</option>
-                        <option value="0300">3:00</option>
-                        <option value="0330">3:30</option>
-                        <option value="0400">4:00</option>
-                        <option value="0430">4:30</option>
-                        <option value="0500">5:00</option>
-                        <option value="0530">5:30</option>
-                        <option value="0600">6:00</option>
-                        <option value="0630">6:30</option>
-                        <option value="0700">7:00</option>
-                        <option value="0730">7:30</option>
-                        <option value="0800">8:00</option>
-                        <option value="0830">8:30</option>
-                        <option value="0900">9:00</option>
-                        <option value="0930">9:30</option>
-                        <option value="1000">10:00</option>
-                        <option value="1030">10:30</option>
-                        <option value="1100">11:00</option>
-                        <option value="1130">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="01:00">1:00</option>
+                        <option value="01:30">1:30</option>
+                        <option value="02:00">2:00</option>
+                        <option value="02:30">2:30</option>
+                        <option value="03:00">3:00</option>
+                        <option value="03:30">3:30</option>
+                        <option value="04:00">4:00</option>
+                        <option value="04:30">4:30</option>
+                        <option value="05:00">5:00</option>
+                        <option value="05:30">5:30</option>
+                        <option value="06:00">6:00</option>
+                        <option value="06:30">6:30</option>
+                        <option value="07:00">7:00</option>
+                        <option value="07:30">7:30</option>
+                        <option value="08:00">8:00</option>
+                        <option value="08:30">8:30</option>
+                        <option value="09:00">9:00</option>
+                        <option value="09:30">9:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
                     </select>
                     <select name="timeSelectStart"
-                        onChange={(e) => this.handleTime('start', e)}
+                        ref={this.startSelector}
                         >
                         <option value="am">AM</option>
                         <option value="pm">PM</option>
                     </select>
 
                     {/* <label for="endTime">End:</label> */}
-                    <select name="endTime" id="endTime">
-                        <option value="1200">12:00</option>
-                        <option value="1230">12:30</option>
-                        <option value="0100">1:00</option>
-                        <option value="0130">1:30</option>
-                        <option value="0200">2:00</option>
-                        <option value="0230">2:30</option>
-                        <option value="0300">3:00</option>
-                        <option value="0330">3:30</option>
-                        <option value="0400">4:00</option>
-                        <option value="0430">4:30</option>
-                        <option value="0500">5:00</option>
-                        <option value="0530">5:30</option>
-                        <option value="0600">6:00</option>
-                        <option value="0630">6:30</option>
-                        <option value="0700">7:00</option>
-                        <option value="0730">7:30</option>
-                        <option value="0800">8:00</option>
-                        <option value="0830">8:30</option>
-                        <option value="0900">9:00</option>
-                        <option value="0930">9:30</option>
-                        <option value="1000">10:00</option>
-                        <option value="1030">10:30</option>
-                        <option value="1100">11:00</option>
-                        <option value="1130">11:30</option>
+                    <select name="endTime" id="endTime"
+
+                        ref={this.endTime}
+                        >
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="01:00">1:00</option>
+                        <option value="01:30">1:30</option>
+                        <option value="02:00">2:00</option>
+                        <option value="02:30">2:30</option>
+                        <option value="03:00">3:00</option>
+                        <option value="03:30">3:30</option>
+                        <option value="04:00">4:00</option>
+                        <option value="04:30">4:30</option>
+                        <option value="05:00">5:00</option>
+                        <option value="05:30">5:30</option>
+                        <option value="06:00">6:00</option>
+                        <option value="06:30">6:30</option>
+                        <option value="07:00">7:00</option>
+                        <option value="07:30">7:30</option>
+                        <option value="08:00">8:00</option>
+                        <option value="08:30">8:30</option>
+                        <option value="09:00">9:00</option>
+                        <option value="09:30">9:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
                     </select>
                     <select name="timeSelectEnd"
-                        onChange={(e) => this.handleTime('end', e)}
+                        ref={this.endSelector}
                         >
                         <option value="am">AM</option>
                         <option value="pm">PM</option>
