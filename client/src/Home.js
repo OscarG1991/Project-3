@@ -37,7 +37,7 @@ export default withAuth(class Home extends Component {
 
   async logout() {
     // Redirect to '/' after logout
-    this.props.auth.logout('/Home');
+    this.props.auth.logout('/');
   }
 
   render() {
