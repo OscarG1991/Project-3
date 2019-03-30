@@ -22,7 +22,7 @@ class App extends Component {
                   client_id={config.client_id}
                   redirect_uri={config.redirect_uri}
         >
-          <Route path='/home' exact={true} component={SignIn}/>
+          <Route path='/' exact={true} component={SignIn}/>
           <Route path='/implicit/callback' component={ImplicitCallback}/>
           <SecureRoute exact path="/calendar" component={Calendar} />
           {/* <Route path='/Home' component={SignIn} /> */}
