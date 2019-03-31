@@ -24,7 +24,7 @@ class App extends Component {
         >
           <Route path='/' exact={true} component={SignIn}/>
           <Route path='/implicit/callback' component={ImplicitCallback}/>
-          <SecureRoute exact path="/calendar" component={Calendar} />
+          <SecureRoute exact path="/Calendar" component={Calendar} />
           {/* <Route path='/Home' component={SignIn} /> */}
         </Security>
       </Router>

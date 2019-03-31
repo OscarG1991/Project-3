@@ -32,7 +32,7 @@ export default withAuth(class Home extends Component {
 
   async login() {
     // Redirect to '/Calendar' after login
-    this.props.auth.login('/Calendar');
+    this.props.auth.login('/');
   }
 
   async logout() {
