@@ -62,7 +62,7 @@ class Calendar extends Component {
         .catch(err => console.log(err));
     }
 
-    eventStyleGetter(event, start, end, isSelected, onSelecting) {
+    eventStyleGetter(event, start, end, isSelected) {
         var backgroundColor = 'green';
         var style = {
             backgroundColor: backgroundColor,
@@ -77,10 +77,6 @@ class Calendar extends Component {
 
         if (isSelected === true) {
             style.backgroundColor = 'purple';
-        }
-
-        if (onSelecting === true) {
-            style.borderRadius = '12px';
         }
 
         return {
