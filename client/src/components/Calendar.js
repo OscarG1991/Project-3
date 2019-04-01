@@ -6,10 +6,12 @@ import "../App.css";
 import API from "../utils/API";
 import MyModal from "./Modal";
 import ButtonAppBar from '../components/AppBar';
+import CustomToolbar from './CustomToolbar';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
 class Calendar extends Component {
+    
     state = {
         events: [
             {
@@ -60,6 +62,31 @@ class Calendar extends Component {
         .catch(err => console.log(err));
     }
 
+    eventStyleGetter(event, start, end, isSelected, onSelecting) {
+        var backgroundColor = 'green';
+        var style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '0px',
+            opacity: 0.5,
+            color: 'white',
+            border: '0px',
+            display: 'block',
+            margin: '2px',
+            textAlign: 'center'
+        };
+
+        if (isSelected === true) {
+            style.backgroundColor = 'purple';
+        }
+
+        if (onSelecting === true) {
+            style.borderRadius = '12px';
+        }
+
+        return {
+            style: style
+        };
+    }
 
     render() {
         return(
@@ -74,6 +101,10 @@ class Calendar extends Component {
                 defaultView={'month'}
                 views={['day','month','week']}
                 style={{ margin: '1vh' }}
+                eventPropGetter={(this.eventStyleGetter)}
+                components={{
+                    toolbar: CustomToolbar
+                }}
                 />
             </div>
         )

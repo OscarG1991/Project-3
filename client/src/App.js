@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-// import logo from './logo.svg';
 import './App.css';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 // import Home from './Home';
@@ -22,9 +21,9 @@ class App extends Component {
                   client_id={config.client_id}
                   redirect_uri={config.redirect_uri}
         >
-          <Route path='/home' exact={true} component={SignIn}/>
+          <Route path='/' exact={true} component={SignIn}/>
           <Route path='/implicit/callback' component={ImplicitCallback}/>
-          <SecureRoute exact path="/calendar" component={Calendar} />
+          <SecureRoute exact path="/Calendar" component={Calendar} />
           {/* <Route path='/Home' component={SignIn} /> */}
         </Security>
       </Router>
