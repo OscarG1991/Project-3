@@ -72,6 +72,7 @@ handleFormSubmit = event => {
     console.log("click");
     this.formatTime();
     this.editEvent();
+    window.location.reload();
 }
 handleFormSubmitDelete = event => {
     //not working >> this.handleClose();
