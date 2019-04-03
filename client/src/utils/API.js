@@ -12,5 +12,8 @@ export default {
   },
   saveEvent: function(scheduleData) {
     return axios.post("/api/calendar", scheduleData);
+  },
+  updateEvent: function(id, updateData) {
+    return axios.put("/api/calendar/" + id, updateData);
   }
 };
