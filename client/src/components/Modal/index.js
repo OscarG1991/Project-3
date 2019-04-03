@@ -53,7 +53,6 @@ const customStyles = {
 Modal.setAppElement('div');
 
 class MyModal extends React.Component {
-
     state= {
         title: "",
         startDate: "",
@@ -71,10 +70,6 @@ class MyModal extends React.Component {
         this.state = {
           modalIsOpen: false
         };
-    
-        // this.openModal = this.openModal.bind(this);
-        // this.afterOpenModal = this.afterOpenModal.bind(this);
-        // this.closeModal = this.closeModal.bind(this);
 
         this.startTime = React.createRef();
         this.endTime = React.createRef();
@@ -82,14 +77,15 @@ class MyModal extends React.Component {
         this.endSelector = React.createRef();
 
     }
+
     afterOpenModal = () => {
         this.setState({ showModal: true });
     }
     openModal = () =>  {
-        this.setState({modalIsOpen: true});
+        this.setState({ modalIsOpen: true });
     }
     closeModal = () => {
-        this.setState({modalIsOpen: false});
+        this.setState({ modalIsOpen: false });
         //window.location.reload(); 
     }
 
@@ -209,7 +205,7 @@ class MyModal extends React.Component {
         return(
             <div>
                 
-            <MuiThemeProvider theme={theme}>
+            {/* <MuiThemeProvider theme={theme}>
                 <Fab 
                 color="primary"  
                 variant="extended" 
@@ -221,7 +217,7 @@ class MyModal extends React.Component {
                     onClick={this.openModal}>
                     <AddIcon />Add Event
                 </Fab>
-            </MuiThemeProvider>
+            </MuiThemeProvider> */}
 
             {/* <button type="submit" onClick={this.openModal}>Add Event</button> */}
 

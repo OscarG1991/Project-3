@@ -6,6 +6,10 @@ import "../App.css";
 import API from "../utils/API";
 import MyModal from "./Modal";
 import ButtonAppBar from '../components/AppBar';
+import AddEvent from '../components/AddEvent';
+import EditEvent from '../components/EditEvent';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import CustomToolbar from '../components/CustomToolbar';
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -32,20 +36,38 @@ class Calendar extends Component {
                 end: moment('2019-03-25T13:00:00').add(1, 'hours').toDate()
             }
         ],
-        showModal: false
+        showModal: false,
+        openAdd: false,
+        openEdit: false,
+        title: "",
+        id:""
+        //superprops
     };
 
-    componentDidMount() {
-        console.log(moment('2019-03-25T13:00:00').toDate());
-        this.runCalendar();
-        console.log("Hard coded: ", moment('2019-03-25T13:00:00').toDate());
-        
+    handleClickOpen = () => {
+        this.setState({ openAdd: true });
+    };
+    
+    handleClose = () => {
+        this.setState({ openAdd: false });
+    };
+    handleOpenEdit = () => {
+        this.setState({ openEdit: true});
+    };
+    handleCloseEdit = () => {
+        this.setState({ openEdit: false});
     }
 
-    show() {
-        this.setState({showModal: true});
+    componentDidMount() {
+        //console.log(moment('2019-03-25T13:00:00').toDate());
+        this.runCalendar();
+        //console.log("Hard coded: ", moment('2019-03-25T13:00:00').toDate());  
+    }
 
-    };
+    // show = () => {
+    //     this.setState({showModal: true});
+    // };
+
 
     runCalendar = () => {
         API.findEvents()
@@ -62,6 +84,8 @@ class Calendar extends Component {
 
     }
 
+
+    handleSelectEvent = (event, target) => {
     eventStyleGetter(event, start, end, isSelected) {
         var backgroundColor = 'green';
         var style = {
@@ -84,15 +108,26 @@ class Calendar extends Component {
         };
     }
 
-    handleSelectEvent(event, target) {
         console.log(event);
+        this.setState({ id:event._id });
+        this.setState({ openEdit: true, title: event.title}, () => console.log(this.state.title));
     }
 
     render() {
         return(
             <div className="container">
             <ButtonAppBar />
-            <MyModal className="ReactModalPortal" />
+                <Fab 
+                color="primary"  
+                variant="extended" 
+                type="submit" 
+                name="AddEvent" 
+                style={{ 
+                    color: "white",
+                    margin: "1vh" }}
+                    onClick={this.handleClickOpen}>
+                    <AddIcon />Add Event
+                </Fab>
                 <BigCalendar
                 localizer={localizer}
                 events={this.state.events}
@@ -107,6 +142,17 @@ class Calendar extends Component {
                 components={{
                     toolbar: CustomToolbar 
                 }}
+                />
+                <AddEvent
+                    open={this.state.openAdd}
+                    handleClose = {this.handleClose}
+                />
+                <EditEvent
+                    open={this.state.openEdit}
+                    handleClose = {this.handleCloseEdit}
+                    title = {this.state.title}
+                    id= {this.state.id}
+                    
                 />
             </div>
         )
