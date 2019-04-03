@@ -6,6 +6,7 @@ import "../App.css";
 import API from "../utils/API";
 import MyModal from "./Modal";
 import ButtonAppBar from '../components/AppBar';
+import CustomToolbar from '../components/CustomToolbar';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -80,6 +81,9 @@ class Calendar extends Component {
                 onSelectEvent = {this.handleSelectEvent}
                 style={{ margin: '1vh' }}
                 //onUpdate={this.runCalendar}
+                components={{
+                    toolbar: CustomToolbar 
+                }}
                 />
             </div>
         )

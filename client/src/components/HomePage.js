@@ -63,7 +63,6 @@ function SignIn(props) {
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <CalendarTodayOutlinedIcon/>
-          {/* <LockOutlinedIcon /> */}
         </Avatar>
         <Typography component="h1" variant="h3" className={classes.title}>
           Project Sundial
@@ -73,34 +72,10 @@ function SignIn(props) {
             Your personal event calendar to free you from social media!
         </Typography>
 
-
-        {/* <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
           <div className={classes.title} >
             <Home />
           </div>
           
-          {/* <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign in
-          </Button> */}
-        {/* </form> */}
       </Paper>
     </main>
   );
