@@ -86,6 +86,11 @@ class Calendar extends Component {
 
 
     handleSelectEvent = (event, target) => {
+        console.log(event);
+        this.setState({ id:event._id });
+        this.setState({ openEdit: true, title: event.title}, () => console.log(this.state.title));
+
+    }
     eventStyleGetter(event, start, end, isSelected) {
         var backgroundColor = 'green';
         var style = {
@@ -101,17 +106,12 @@ class Calendar extends Component {
 
         if (isSelected === true) {
             style.backgroundColor = 'purple';
-        }
+        };
 
         return {
             style: style
         };
-    }
-
-        console.log(event);
-        this.setState({ id:event._id });
-        this.setState({ openEdit: true, title: event.title}, () => console.log(this.state.title));
-    }
+    };
 
     render() {
         return(
