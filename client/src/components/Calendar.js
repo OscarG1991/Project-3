@@ -10,6 +10,7 @@ import AddEvent from '../components/AddEvent';
 import EditEvent from '../components/EditEvent';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import CustomToolbar from '../components/CustomToolbar';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -83,7 +84,30 @@ class Calendar extends Component {
 
     }
 
+
     handleSelectEvent = (event, target) => {
+    eventStyleGetter(event, start, end, isSelected) {
+        var backgroundColor = 'green';
+        var style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '0px',
+            opacity: 0.5,
+            color: 'white',
+            border: '0px',
+            display: 'block',
+            margin: '2px',
+            textAlign: 'center'
+        };
+
+        if (isSelected === true) {
+            style.backgroundColor = 'purple';
+        }
+
+        return {
+            style: style
+        };
+    }
+
         console.log(event);
         this.setState({ id:event._id });
         this.setState({ openEdit: true, title: event.title}, () => console.log(this.state.title));
@@ -113,7 +137,11 @@ class Calendar extends Component {
                 views={['day','week','month']}
                 onSelectEvent = {this.handleSelectEvent}
                 style={{ margin: '1vh' }}
+                eventPropGetter={(this.eventStyleGetter)}
                 //onUpdate={this.runCalendar}
+                components={{
+                    toolbar: CustomToolbar 
+                }}
                 />
                 <AddEvent
                     open={this.state.openAdd}

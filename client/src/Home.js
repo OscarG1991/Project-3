@@ -32,13 +32,14 @@ export default withAuth(class Home extends Component {
 
   async login() {
     // Redirect to '/Calendar' after login
-    this.props.auth.login('/Calendar');
+    this.props.auth.login('/calendar');
   }
 
   async logout() {
     // Redirect to '/' after logout
     this.props.auth.logout('/');
   }
+
 
   render() {
     // const { user } = this.state;
@@ -52,7 +53,9 @@ export default withAuth(class Home extends Component {
     // color="secondary"
     color="inherit"
     variant="outlined" 
-    onClick={this.logout}>Logout</Button> :
+    onClick={this.logout}>Logout</Button> 
+    
+    :
 
     // <Grid
     //   container
