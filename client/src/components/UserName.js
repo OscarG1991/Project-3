@@ -21,11 +21,13 @@ export default withAuth(class UserName extends Component {
     if (authenticated !== this.state.authenticated) {
       const user = await this.props.auth.getUser();
       this.setState({ authenticated, user });
+      sessionStorage.setItem('user', user.sub);
     }
   }
 
   componentDidUpdate() {
     this.checkAuthentication();
+    
   }
 
   render() {

@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 app.use(bodyParser.json());
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/digitalassistant";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user:user123!@ds133670.mlab.com:33670/heroku_ph2lj9gv";
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
