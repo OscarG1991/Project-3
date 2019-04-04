@@ -40,7 +40,8 @@ export default class AddEvent extends React.Component {
             from: undefined,
             to: undefined,
             start: "",
-            end: ""    
+            end: "",
+            sub: "",    
         };
 
         this.startTime = React.createRef();
@@ -109,6 +110,7 @@ formatTime = () => {
         title: this.state.title,
         start: this.state.startDate + "T" + st,
         end: this.state.endDate + "T" + et,
+        sub: sessionStorage.getItem('user'),
     };
     console.log(e);
 
@@ -119,7 +121,8 @@ formatTime = () => {
             API.saveEvent({
                 title: this.state.title,
                 start: this.state.startDate + "T" + st,
-                end: this.state.endDate + "T" + et
+                end: this.state.endDate + "T" + et,
+                sub: sessionStorage.getItem('user')
             })
             .then(this.handleClose())
             .then(() => window.location.reload())
