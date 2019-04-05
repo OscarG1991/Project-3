@@ -4,7 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment';
 import "../App.css";
 import API from "../utils/API";
-import MyModal from "./Modal";
+//import MyModal from "./Modal";
 import ButtonAppBar from '../components/AppBar';
 import AddEvent from '../components/AddEvent';
 import EditEvent from '../components/EditEvent';
@@ -41,8 +41,9 @@ class Calendar extends Component {
         openAdd: false,
         openEdit: false,
         title: "",
-        id:""
-        //superprops
+        id:"",
+        sTime: "",
+        eTime: ""
     };
 
     handleClickOpen = () => {
@@ -60,15 +61,8 @@ class Calendar extends Component {
     }
 
     componentDidMount() {
-        //console.log(moment('2019-03-25T13:00:00').toDate());
         this.runCalendar();
-        //console.log("Hard coded: ", moment('2019-03-25T13:00:00').toDate());  
     }
-
-    // show = () => {
-    //     this.setState({showModal: true});
-    // };
-
 
     runCalendar = () => {
         let newArr = []
@@ -93,7 +87,7 @@ class Calendar extends Component {
 
     handleSelectEvent = (event, target) => {
         console.log(event);
-        this.setState({ id:event._id });
+        this.setState({ id:event._id, sTime:event.start, eTime:event.end });
         this.setState({ openEdit: true, title: event.title}, () => console.log(this.state.title));
 
     }
@@ -158,6 +152,8 @@ class Calendar extends Component {
                     handleClose = {this.handleCloseEdit}
                     title = {this.state.title}
                     id= {this.state.id}
+                    sTime = {this.state.sTime}
+                    eTime = {this.state.eTime}
                     
                 />
             </div>

@@ -67,6 +67,9 @@ handleDayClick = (day) => {
     const range = DateUtils.addDayToRange(day, this.state);
     this.setState(range);
     // console.log(range.from.toLocaleDateString());
+    if(!range.to) {
+        range.to = range.from
+    }
     const newFrom = moment(range.from).format("YYYY-MM-DD");
     const newTo = moment(range.to).format("YYYY-MM-DD");
     this.setState({ startDate: newFrom },() => console.log(this.state.startDate));
@@ -85,7 +88,6 @@ handleInputChange = event => {
     });
 }
 handleFormSubmit = event => {
-    //not working >> this.handleClose();
     event.preventDefault();
     console.log("click");
     this.formatTime();
@@ -170,13 +172,7 @@ onClose = (i) => {
                      margin = "normal"
                      variant="outlined"
                      />
-                    {/* <input
-                        type="text"
-                        value={this.state.title}
-                        onChange={this.handleInputChange}
-                        name="title"
-                        placeholder="Event"
-                    /> */}
+            
                     <div className="day-pick">
                         <p>
                         {!from && !to && 'Please select the first day.'}
