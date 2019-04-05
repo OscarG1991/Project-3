@@ -69,7 +69,7 @@ class CustomToolbar extends React.Component {
                 </Button>
             </span>
         
-            <span class="rbc-toolbar-label">
+            <span className="rbc-toolbar-label">
                 <Typography variant="h3">
                     { label }
                 </Typography>
