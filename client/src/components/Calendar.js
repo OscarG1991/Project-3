@@ -17,26 +17,7 @@ const localizer = BigCalendar.momentLocalizer(moment);
 
 class Calendar extends Component {
     state = {
-        events: [
-            {
-                title: 'Event',
-                allDay: false,
-                start: moment().toDate(),
-                end: moment().add(4, 'hours').toDate()
-            },
-            {
-                title: 'Meeting',
-                allDay: false,
-                start: moment('2019-03-25T00:00').toDate(),
-                end: moment('2019-03-25T00:00').add(4, 'hours').toDate()
-            },
-            {
-                title: 'Meeting',
-                allDay: false,
-                start: moment('2019-03-25T13:00:00').toDate(),
-                end: moment('2019-03-25T13:00:00').add(1, 'hours').toDate()
-            }
-        ],
+        events: [],
         showModal: false,
         openAdd: false,
         openEdit: false,
@@ -68,6 +49,19 @@ class Calendar extends Component {
         let newArr = []
         API.findEvents()
         .then(res => {
+            setTimeout(() => {
+                   if( window.localStorage )
+  {
+    if( !localStorage.getItem( 'firstLoad' ) )
+    {
+      localStorage[ 'firstLoad' ] = true;
+      window.location.reload();
+    }  
+
+    else
+      localStorage.removeItem( 'firstLoad' );
+  }
+            }, 500);
             let items = res.data;
             let userSub = sessionStorage.getItem('user');
             for (let i = 0; i < items.length; i++) {
