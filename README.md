@@ -8,7 +8,7 @@ Click [here](http://calendarproject-3.herokuapp.com/) to visit the deployed site
 
 Initial screen prompts the user to login using Okta Authentication.
 
-![InitialScreen](/images/Sign_In.png)
+![InitialScreen](/images/SignIn.png)
 
 ![Okta](/images/Okta.png)
 
