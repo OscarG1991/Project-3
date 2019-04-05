@@ -14,6 +14,7 @@ import CustomToolbar from '../components/CustomToolbar';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
+
 class Calendar extends Component {
     state = {
         events: [
@@ -64,14 +65,19 @@ class Calendar extends Component {
     }
 
     runCalendar = () => {
+        let newArr = []
         API.findEvents()
         .then(res => {
             let items = res.data;
+            let userSub = sessionStorage.getItem('user');
             for (let i = 0; i < items.length; i++) {
                 items[i].start= moment(items[i].start).toDate();
                 items[i].end= moment(items[i].end).toDate();
+                if (userSub === items[i].sub) {
+                    newArr.push(items[i])
+                }
             }
-            this.setState({events: items})
+            this.setState({events: newArr})
             console.log(this.state.events);    
         })
         .catch(err => console.log(err));

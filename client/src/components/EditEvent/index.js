@@ -26,6 +26,7 @@ export default class EditEvent extends React.Component {
             to: undefined,
             start: "",
             end: "",
+            sub: ""
         };
         
 
@@ -108,6 +109,7 @@ formatTime = () => {
         title: this.state.title,
         start: this.state.startDate + "T" + st,
         end: this.state.endDate + "T" + et,
+        sub: sessionStorage.getItem('user'),
     };
     console.log(e);
 
@@ -172,7 +174,8 @@ editEvent = () => {
                 {
                     title: this.state.title,
                     start: this.state.startDate + "T" + st,
-                    end: this.state.endDate + "T" + et
+                    end: this.state.endDate + "T" + et,
+                    sub: sessionStorage.getItem('user')
                 }
             )
             .then(this.handleClose())
