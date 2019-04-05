@@ -5,13 +5,15 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DayPicker, { DateUtils } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 import Grid from '@material-ui/core/Grid';
 import Send from '@material-ui/icons/Send';
 import moment from 'moment';
 import API from "../../utils/API";
-//import PropTypes from "prop-types";
+
 let st;
 let et;
+
 export default class EditEvent extends React.Component {
     constructor() {
         super();
@@ -23,8 +25,9 @@ export default class EditEvent extends React.Component {
             from: undefined,
             to: undefined,
             start: "",
-            end: ""
+            end: "",
         };
+        
 
         this.startTime = React.createRef();
         this.endTime = React.createRef();
@@ -48,17 +51,19 @@ export default class EditEvent extends React.Component {
 handleDayClick = (day) => {
     const range = DateUtils.addDayToRange(day, this.state);
     this.setState(range);
+    if(!range.to) {
+        range.to = range.from
+    }
     // console.log(range.from.toLocaleDateString());
     const newFrom = moment(range.from).format("YYYY-MM-DD");
     const newTo = moment(range.to).format("YYYY-MM-DD");
     this.setState({ startDate: newFrom },() => console.log(this.state.startDate));
     this.setState({ endDate: newTo },() => console.log(this.state.endDate));
-
 }
+
 handleResetClick = () => {
     this.setState(this.setState({from: undefined, to: undefined}));
 }
-
 // form input handling
 handleInputChange = event => {
     const { name, value } = event.target;
@@ -67,15 +72,17 @@ handleInputChange = event => {
     });
 }
 handleFormSubmit = event => {
-    //not working >> this.handleClose();
     event.preventDefault();
     console.log("click");
     this.formatTime();
-    this.editEvent();
-    window.location.reload();
+    if(st < et) {
+        this.editEvent();  
+        window.location.reload();
+    }else{
+        console.log("error")
+    }
 }
 handleFormSubmitDelete = event => {
-    //not working >> this.handleClose();
     event.preventDefault();
     console.log("click");
     this.formatTime();
@@ -126,10 +133,40 @@ addEvent = () => {
 editEvent = () => {
     console.log(this.state.title);
     let id = this.props.id;
-    //if(this.state.title && this.state.startDate && this.state.endDate && st && et) {
-        //if(st >= et) {
-        //     console.log("choose later time")
-        // }else{
+        if(!this.state.title && !this.state.startDate && !this.state.endDate) {
+            API.updateEvent(
+                (id),
+                {
+                    title: this.props.title,
+                    start: moment(this.props.sTime).format("YYYY-MM-DD") + "T" + st,
+                    end: moment(this.props.eTime).format("YYYY-MM-DD") + "T" + et
+                }
+            )
+            .then(this.handleClose())
+            .catch(err => console.log(err)); 
+        }else if(!this.state.title){
+            API.updateEvent(
+                (id),
+                {
+                    title: this.props.title,
+                    start: this.state.startDate + "T" + st,
+                    end: this.state.endDate + "T" + et
+                }
+            )
+            .then(this.handleClose())
+            .catch(err => console.log(err)); 
+        }else if(!this.state.startDate && !this.state.endDate){
+            API.updateEvent(
+                (id),
+                {
+                    title: this.state.title,
+                    start: moment(this.props.sTime).format("YYYY-MM-DD") + "T" + st,
+                    end: moment(this.props.eTime).format("YYYY-MM-DD") + "T" + et
+                }
+            )
+            .then(this.handleClose())
+            .catch(err => console.log(err)); 
+        }else{
             API.updateEvent(
                 (id),
                 {
@@ -139,11 +176,8 @@ editEvent = () => {
                 }
             )
             .then(this.handleClose())
-            .catch(err => console.log(err));
-        
-    // }else{
-    //     console.log("error");
-    // }
+            .catch(err => console.log(err)); 
+        }
 }
 
 deleteEvent = () => {
@@ -157,10 +191,24 @@ deleteEvent = () => {
 onClose = (i) => {
     this.props.handleClose(i);
 }
+findDate = (from, to, eFrom, eTo) => {
+    if(!from && !to) {
+        return [eFrom, { eFrom, eTo }];
+    }else{
+        return [from, {from, to}];
+    }
+}
 
   render() {
-    const sTime = moment(this.props.start).format('hh:mm');
+    const sTime = moment(this.props.sTime).format('hh:mm');
+    const sTimeSelector = moment(this.props.sTime).format('hh:mm a');
+    let s = sTimeSelector.split(' ')[1];
+    const eTime = moment(this.props.eTime).format('hh:mm');
+    let eTimeSelector = moment(this.props.eTime).format('hh:mm a');
+    let e = eTimeSelector.split(' ')[1];
     const { from, to } = this.state;
+    let eFrom = this.props.sTime;
+    let eTo = this.props.eTime;
     const modifiers = { start: from, end: to };
     const { classes, open, handleClose } = this.props;
     return (
@@ -219,15 +267,19 @@ onClose = (i) => {
                         onChange={this.handleInputChange}
                         name="title"
                         placeholder="Event"
-                    /> */}
+                    />  */}
                     <div className="day-pick">
                         <p>
-                        {!from && !to && 'Please select the first day.'}
-                        {from && !to && 'Please select the last day.'}
+                        {/* {!from && !to && 'Please select the first day.'}
+                        {from && !to && 'Please select the last day.'} */}
                         {from &&
                             to &&
                             `Selected from ${from.toLocaleDateString()} to
                                 ${to.toLocaleDateString()}`}{' '}
+                        {/* {eFrom &&
+                            eTo &&
+                            `Selected from ${eFrom.toLocaleDateString()} to
+                                ${eTo.toLocaleDateString()}`}{' '} */}
                         {from &&
                             to && (
                             <button className="link" onClick={this.handleResetClick}>
@@ -238,11 +290,10 @@ onClose = (i) => {
                         <DayPicker
                             className="Selectable"
                             numberOfMonths={this.props.numberOfMonths}
-                            selectedDays={[from, { from, to }]}
+                            //selectedDays={[from, { from, to }]}
+                            selectedDays={this.findDate(from, to, eFrom, eTo)}
                             modifiers={modifiers}
                             onDayClick={this.handleDayClick}
-                            //?????????????????????
-                            defaultValue={this.props.Date}
                         />
                     </div>
                     {/* Timepicker code */}
@@ -277,6 +328,7 @@ onClose = (i) => {
                     </select>
                     <select name="timeSelectStart"
                         ref={this.startSelector}
+                        defaultValue={s}
                         >
                         <option value="am">AM</option>
                         <option value="pm">PM</option>
@@ -284,7 +336,7 @@ onClose = (i) => {
 
                     {/* <label for="endTime">End:</label> */}
                     <select name="endTime" id="endTime"
-                        defaultValue={this.state.endTime}
+                        defaultValue={eTime}
                         ref={this.endTime}
                         >
                         <option value="12:00">12:00</option>
@@ -314,6 +366,7 @@ onClose = (i) => {
                     </select>
                     <select name="timeSelectEnd"
                         ref={this.endSelector}
+                        defaultValue={e}
                         >
                         <option value="am">AM</option>
                         <option value="pm">PM</option>
