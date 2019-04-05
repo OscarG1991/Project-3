@@ -15,17 +15,56 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Home from '../Home';
 import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined';
 
+// const styles = theme => ({
+//   main: {
+//     width: 'auto',
+//     display: 'block', // Fix IE 11 issue.
+//     marginLeft: theme.spacing.unit * 3,
+//     marginRight: theme.spacing.unit * 3,
+//     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+//       width: 400,
+//       marginLeft: 'auto',
+//       marginRight: 'auto',
+//     },
+//   },
+//   paper: {
+//     marginTop: theme.spacing.unit * 8,
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+//   },
+//   avatar: {
+//     margin: theme.spacing.unit,
+//     backgroundColor: theme.palette.secondary.main,
+//   },
+//   form: {
+//     width: '100%', // Fix IE 11 issue.
+//     marginTop: theme.spacing.unit,
+//   },
+//   submit: {
+//     marginTop: theme.spacing.unit * 3,
+//   },
+//   title: {
+//       margin: '1vh'
+//   },
+//   description: {
+//       margin: '1vh',
+//       padding: '1vh'
+//   }
+// });
+
 const styles = theme => ({
   main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    background: 'linear-gradient(to top, black, teal, #85bae2, orange, white)',
+  
+
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
@@ -33,6 +72,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    width: 400,
   },
   avatar: {
     margin: theme.spacing.unit,
