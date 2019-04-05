@@ -1,4 +1,4 @@
-# Project Sol
+# Sol
 
 Your personal event calendar to free you from social media!
 

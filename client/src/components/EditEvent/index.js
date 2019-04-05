@@ -215,43 +215,33 @@ findDate = (from, to, eFrom, eTo) => {
     const modifiers = { start: from, end: to };
     const { classes, open, handleClose } = this.props;
     return (
-      <div>
+        <div>
         <Dialog
           open={open}
           onClose={()=> handleClose('cancel')}
           aria-labelledby="form-dialog-title"
           fullWidth={true}
-        //maxWidth = {'md'}
+          //maxWidth = {'md'}
         >
-        <DialogTitle id="form-dialog-title">Edit Event</DialogTitle>
+        <Grid
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        item xs={12}>
+        <Grid
+            container
+            alignItems="center"
+            >
+            <DialogTitle id="form-dialog-title">Edit Event</DialogTitle>
+        </Grid>
         <Grid
                 container
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                justify="center">
-                <Button
-                      color="primary"  
-                      variant="contained" 
-                      type="submit"
-                      name="DeleteEvent"
-                      style={{ 
-                        color: "white",
-                        margin: "1vh"}}
-                      onClick={this.handleFormSubmitDelete}>
-                        <Send style={{padding: "1vh"}}/> Delete Event
-                    </Button>
-                    <Button
-                      color="primary"  
-                      variant="contained" 
-                      type="submit"
-                      name="EditEvent"
-                      style={{ 
-                        color: "white",
-                        margin: "1vh"}}
-                      onClick={this.handleFormSubmit}>
-                        <Send style={{padding: "1vh"}}/> Edit Event
-                    </Button>
+                justify="center"
+                item xs={12}>
                 <form>
                     <TextField
                     //  required
@@ -264,25 +254,12 @@ findDate = (from, to, eFrom, eTo) => {
                      margin = "normal"
                      variant="outlined"
                      />
-                    {/* <input
-                        type="text"
-                        value={this.state.title}
-                        onChange={this.handleInputChange}
-                        name="title"
-                        placeholder="Event"
-                    />  */}
                     <div className="day-pick">
                         <p>
-                        {/* {!from && !to && 'Please select the first day.'}
-                        {from && !to && 'Please select the last day.'} */}
                         {from &&
                             to &&
                             `Selected from ${from.toLocaleDateString()} to
                                 ${to.toLocaleDateString()}`}{' '}
-                        {/* {eFrom &&
-                            eTo &&
-                            `Selected from ${eFrom.toLocaleDateString()} to
-                                ${eTo.toLocaleDateString()}`}{' '} */}
                         {from &&
                             to && (
                             <button className="link" onClick={this.handleResetClick}>
@@ -375,25 +352,39 @@ findDate = (from, to, eFrom, eTo) => {
                         <option value="pm">PM</option>
 
                     </select>
-                </form>
+                    </form>
                 </Grid>  
+                <Grid
+                container
+                alignItems="center"
+                justify="center"
+                item xs={12}>
+                    <br></br>
+                    <Button
+                        color="primary"  
+                        variant="contained" 
+                        type="submit"
+                        name="DeleteEvent"
+                        style={{ 
+                            color: "white",
+                            margin: "1vh"}}
+                        onClick={this.handleFormSubmitDelete}>
+                            <Send style={{padding: "1vh"}}/> Delete Event
+                        </Button>
+                        <Button
+                        color="primary"  
+                        variant="contained" 
+                        type="submit"
+                        name="EditEvent"
+                        style={{ 
+                            color: "white",
+                            margin: "1vh"}}
+                        onClick={this.handleFormSubmit}>
+                            <Send style={{padding: "1vh"}}/> Edit Event
+                        </Button>
+                    </Grid>
+                </Grid>
           <DialogActions>
-          {/* <MuiThemeProvider 
-          //theme={theme}
-          > */}
-                    {/* <Button
-                      color="primary"  
-                      variant="contained" 
-                      type="submit"
-                      name="EditEvent"
-                      style={{ 
-                        color: "white",
-                        margin: "1vh"}}
-                      onClick={this.handleFormSubmit}>
-                        <Send style={{padding: "1vh"}}/> Edit Event
-                    </Button>
-                    <br></br> */}
-                {/* </MuiThemeProvider> */}
           </DialogActions>
         </Dialog>
       </div>

@@ -65,7 +65,7 @@ function SignIn(props) {
           <CalendarTodayOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h3" className={classes.title}>
-          Project Sol
+          Sol
         </Typography>
 
         <Typography component="h2" variant="h5" className={classes.description}>
